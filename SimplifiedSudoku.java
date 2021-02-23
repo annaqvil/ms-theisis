@@ -6,13 +6,13 @@
 /* V0.3   18-MAR-2007  P. Tellenbach   www.heimetli.ch   */
 /*                                                       */
 /*********************************************************/
-import java.applet.* ;
+
 import java.awt.* ;
 
 /**
  * Solves a sudoku puzzle by recursion and backtracking
  */
-public class SimplifiedSudoku extends Applet implements Runnable
+public class SimplifiedSudoku implements Runnable
 {
    /** The model */
    protected int model[][] ;
@@ -69,39 +69,10 @@ public class SimplifiedSudoku extends Applet implements Runnable
       model[8][8] = 6 ;
    }
 
-   /** Creates an empty view */
-   protected void createView()
-   {
-      setLayout( new GridLayout(9,9) ) ;
-
-      view = new Button[9][9] ;
-
-      // Create an empty view
-      for( int row = 0; row < 9; row++ )
-         for( int col = 0; col < 9; col++ )
-         {
-            view[row][col]  = new Button() ;
-            add( view[row][col] ) ;
-         }
-   }
-
-   /** Updates the view from the model */
-   protected void updateView()
-   {
-      for( int row = 0; row < 9; row++ )
-         for( int col = 0; col < 9; col++ )
-            if( model[row][col] != 0 )
-               view[row][col].setLabel( String.valueOf(model[row][col]) ) ;
-            else
-               view[row][col].setLabel( "" ) ;
-   }
-
    /** This method is called by the browser when the applet is loaded */
    public void init()
    {
       createModel() ;
-      createView() ;
-      updateView() ;
    }
 
    /** Checks if num is an acceptable value for the given row */
@@ -150,9 +121,6 @@ public class SimplifiedSudoku extends Applet implements Runnable
    {
       try
       {
-         // Let the observers see the initial position
-         Thread.sleep( 1000 ) ;
-
          // Start to solve the puzzle in the left upper corner
          solve( 0, 0 ) ;
       }
@@ -179,10 +147,6 @@ public class SimplifiedSudoku extends Applet implements Runnable
             if( checkRow(row,num) && checkCol(col,num) && checkBox(row,col,num) )
             {
                model[row][col] = num ;
-               updateView() ;
-
-               // Let the observer see it
-               Thread.sleep( 1000 ) ;
 
                // Delegate work on the next cell to a recursive call
                next( row, col ) ;
@@ -191,7 +155,6 @@ public class SimplifiedSudoku extends Applet implements Runnable
 
          // No valid number was found, clean up and return to caller
          model[row][col] = 0 ;
-         updateView() ;
       }
    }
 
@@ -203,4 +166,10 @@ public class SimplifiedSudoku extends Applet implements Runnable
       else
          solve( row + 1, 0 ) ;
    }
+
+   public static void main( String[] args )
+   {
+    SimplifiedSudoku simpleSudoku = new SimplifiedSudoku();
+    simpleSudoku.start();
+  }
 }
