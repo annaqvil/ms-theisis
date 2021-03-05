@@ -17,9 +17,6 @@ public class SimplifiedSudoku implements Runnable
    /** The model */
    protected int model[][] ;
 
-   /** The view */
-   protected Button view[][] ;
-
    /** Creates the model and sets up the initial situation */
    protected void createModel()
    {
@@ -69,7 +66,7 @@ public class SimplifiedSudoku implements Runnable
       model[8][8] = 6 ;
    }
 
-   /** This method is called by the browser when the applet is loaded */
+   /** This method is called by the start-method  */
    public void init()
    {
       createModel() ;
@@ -109,9 +106,10 @@ public class SimplifiedSudoku implements Runnable
       return true ;
    }
 
-   /** This method is called by the browser to start the applet */
+   /** This method is called by main to start solving the sudoku */
    public void start()
    {
+      init() ;
       // This statement will start the method 'run' to in a new thread
       (new Thread(this)).start() ;
    }
